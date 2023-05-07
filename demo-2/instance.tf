@@ -1,12 +1,12 @@
-resource "aws_key_pair" "mykey" {
-  key_name   = "mykey"
+resource "aws_key_pair" "eoan001" {
+  key_name   = "eoan001"
   public_key = file(var.PATH_TO_PUBLIC_KEY)
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "eoan001" {
   ami           = var.AMIS[var.AWS_REGION]
   instance_type = "t2.micro"
-  key_name      = aws_key_pair.mykey.key_name
+  key_name      = aws_key_pair.eoan001.key_name
 
   provisioner "file" {
     source      = "script.sh"
@@ -24,6 +24,7 @@ resource "aws_instance" "example" {
     type        = "ssh"
     user        = var.INSTANCE_USERNAME
     private_key = file(var.PATH_TO_PRIVATE_KEY)
+    timeout = "8m"
   }
 }
 
